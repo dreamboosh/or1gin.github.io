@@ -61,10 +61,9 @@
     }
     .dropdown-item:hover { background: rgba(245,166,35,0.1); color: var(--gold); }
 
-    /* HERO */
+    /* ── HERO ── */
     .hero {
-      position: relative; height: 100vh; min-height: 640px;
-      overflow: hidden; display: flex; align-items: center; justify-content: center;
+      position: relative; height: 100vh; min-height: 640px; overflow: hidden;
     }
     .hero-bg { position: absolute; inset: 0; z-index: 0; }
     .hero-bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.2; filter: blur(3px); }
@@ -72,28 +71,47 @@
       position: absolute; inset: 0; z-index: 1;
       background: linear-gradient(180deg,rgba(10,10,10,.35) 0%,rgba(10,10,10,.65) 55%,var(--black) 100%);
     }
-    .slide-arrows {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      left: 0; right: 0; display: flex; justify-content: space-between;
-      padding: 0 28px; z-index: 3; pointer-events: none;
+
+    /* ── SLIDESHOW FIX: container holds fixed height, slides are absolute ── */
+    .slideshow-container {
+      position: absolute; inset: 0; z-index: 2;
+      display: flex; align-items: center; justify-content: center;
     }
-    .arrow-btn {
-      pointer-events: all; width: 50px; height: 50px; border-radius: 50%;
-      background: rgba(18,18,18,0.72); border: 1px solid rgba(245,166,35,0.22); color: var(--text);
-      display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all .22s; backdrop-filter: blur(10px);
+    .slideshow-wrapper {
+      position: relative;
+      width: 100%; max-width: 860px;
+      /* Fixed height prevents layout collapse when switching slides */
+      height: 440px;
+      padding: 0 80px;
     }
-    .arrow-btn:hover { background: rgba(245,166,35,0.18); border-color: var(--gold); color: var(--gold); }
-    .slideshow-wrapper { position: relative; z-index: 2; width: 100%; max-width: 860px; padding: 0 24px; text-align: center; }
-    .slide { display: none; animation-duration: .48s; animation-fill-mode: both; }
-    .slide.active { display: block; }
-    .slide.slide-in-left  { animation-name: siL; }
-    .slide.slide-in-right { animation-name: siR; }
-    .slide.slide-out-left  { animation-name: soL; }
-    .slide.slide-out-right { animation-name: soR; }
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: none;
+    }
+    .slide.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Keyframe animations */
     @keyframes siL  { from{opacity:0;transform:translateX(-70px)} to{opacity:1;transform:translateX(0)} }
     @keyframes siR  { from{opacity:0;transform:translateX(70px)}  to{opacity:1;transform:translateX(0)} }
     @keyframes soL  { from{opacity:1;transform:translateX(0)} to{opacity:0;transform:translateX(-70px)} }
     @keyframes soR  { from{opacity:1;transform:translateX(0)} to{opacity:0;transform:translateX(70px)}  }
+    .slide.anim-in-left   { animation: siL .45s ease forwards; }
+    .slide.anim-in-right  { animation: siR .45s ease forwards; }
+    .slide.anim-out-left  { animation: soL .45s ease forwards; pointer-events: none; }
+    .slide.anim-out-right { animation: soR .45s ease forwards; pointer-events: none; }
+
     .slide-tag {
       display: inline-block; background: rgba(245,166,35,0.12); border: 1px solid rgba(245,166,35,0.38);
       color: var(--gold); font-size: 10.5px; font-weight: 700; letter-spacing: 2px;
@@ -107,6 +125,7 @@
     .slide-sub1 { font-size: 17px; font-weight: 500; color: var(--muted); margin-bottom: 7px; }
     .slide-sub2 { font-size: 13.5px; font-weight: 400; color: rgba(170,170,170,.65); margin-bottom: 40px; }
     .slide-cta { display: inline-flex; gap: 11px; flex-wrap: wrap; justify-content: center; }
+
     .btn-primary {
       background: linear-gradient(135deg,var(--gold),var(--gold-dark)); color: #000; border: none;
       padding: 13px 30px; border-radius: var(--radius); font-family: inherit;
@@ -119,6 +138,20 @@
       font-size: 13.5px; font-weight: 600; cursor: pointer; transition: all .22s;
     }
     .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* Arrow buttons — positioned over the slideshow container */
+    .slide-arrows {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      left: 0; right: 0; display: flex; justify-content: space-between;
+      padding: 0 28px; z-index: 3; pointer-events: none;
+    }
+    .arrow-btn {
+      pointer-events: all; width: 50px; height: 50px; border-radius: 50%;
+      background: rgba(18,18,18,0.72); border: 1px solid rgba(245,166,35,0.22); color: var(--text);
+      display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all .22s; backdrop-filter: blur(10px);
+    }
+    .arrow-btn:hover { background: rgba(245,166,35,0.18); border-color: var(--gold); color: var(--gold); }
+
     .slide-dots { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); display: flex; gap: 7px; z-index: 3; }
     .dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.28); cursor: pointer; transition: all .28s; }
     .dot.active { background: var(--gold); width: 22px; border-radius: var(--radius); }
@@ -176,7 +209,6 @@
     .footer-link:hover { color: var(--gold); }
     .footer-sep { color: rgba(255,255,255,.18); font-size: 13px; }
 
-    /* REVEAL */
     .reveal { opacity: 0; transform: translateY(28px); transition: opacity .65s ease,transform .65s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
   </style>
@@ -215,6 +247,8 @@
     <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1920&q=80" alt="Hero BG" />
   </div>
   <div class="hero-overlay"></div>
+
+  <!-- Arrows sit on top of everything -->
   <div class="slide-arrows">
     <button class="arrow-btn" onclick="changeSlide(-1)">
       <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -223,38 +257,47 @@
       <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
     </button>
   </div>
-  <div class="slideshow-wrapper">
-    <div class="slide active" id="slide-0">
-      <div class="slide-tag">Featured · 2026</div>
-      <h1 class="slide-title">Your Main<br><span>Title Here</span></h1>
-      <p class="slide-sub1">Placeholder subtitle — describe your content or feature here</p>
-      <p class="slide-sub2">A secondary supporting line with extra detail or information goes right here</p>
-      <div class="slide-cta">
-        <button class="btn-primary">Get Started</button>
-        <button class="btn-outline">Learn More</button>
+
+  <!-- Fixed-height container: no layout shift -->
+  <div class="slideshow-container">
+    <div class="slideshow-wrapper">
+
+      <div class="slide active" id="slide-0">
+        <div class="slide-tag">Featured · 2026</div>
+        <h1 class="slide-title">Your Main<br><span>Title Here</span></h1>
+        <p class="slide-sub1">Placeholder subtitle — describe your content or feature here</p>
+        <p class="slide-sub2">A secondary supporting line with extra detail or information goes right here</p>
+        <div class="slide-cta">
+          <button class="btn-primary">Get Started</button>
+          <button class="btn-outline">Learn More</button>
+        </div>
       </div>
-    </div>
-    <div class="slide" id="slide-1">
-      <div class="slide-tag">Spotlight · Season 1</div>
-      <h1 class="slide-title">Second<br><span>Slide Title</span></h1>
-      <p class="slide-sub1">Replace this with your second feature's subtitle or tagline</p>
-      <p class="slide-sub2">Supporting description or extra detail for your second slide goes here</p>
-      <div class="slide-cta">
-        <button class="btn-primary">Explore Now</button>
-        <button class="btn-outline">Watch Trailer</button>
+
+      <div class="slide" id="slide-1">
+        <div class="slide-tag">Spotlight · Season 1</div>
+        <h1 class="slide-title">Second<br><span>Slide Title</span></h1>
+        <p class="slide-sub1">Replace this with your second feature's subtitle or tagline</p>
+        <p class="slide-sub2">Supporting description or extra detail for your second slide goes here</p>
+        <div class="slide-cta">
+          <button class="btn-primary">Explore Now</button>
+          <button class="btn-outline">Watch Trailer</button>
+        </div>
       </div>
-    </div>
-    <div class="slide" id="slide-2">
-      <div class="slide-tag">New · Coming Soon</div>
-      <h1 class="slide-title"><span>Third</span> Slide<br>Placeholder</h1>
-      <p class="slide-sub1">Your third feature's catchy subtitle lives right here</p>
-      <p class="slide-sub2">Fill this space with an enticing secondary line for slide three</p>
-      <div class="slide-cta">
-        <button class="btn-primary">Join Waitlist</button>
-        <button class="btn-outline">Read More</button>
+
+      <div class="slide" id="slide-2">
+        <div class="slide-tag">New · Coming Soon</div>
+        <h1 class="slide-title"><span>Third</span> Slide<br>Placeholder</h1>
+        <p class="slide-sub1">Your third feature's catchy subtitle lives right here</p>
+        <p class="slide-sub2">Fill this space with an enticing secondary line for slide three</p>
+        <div class="slide-cta">
+          <button class="btn-primary">Join Waitlist</button>
+          <button class="btn-outline">Read More</button>
+        </div>
       </div>
+
     </div>
   </div>
+
   <div class="slide-dots" id="dots">
     <div class="dot active" onclick="goToSlide(0)"></div>
     <div class="dot" onclick="goToSlide(1)"></div>
@@ -305,21 +348,49 @@
     <p class="footer-copy">© 2026 Studio Name LLC. All rights reserved.</p>
     <p class="footer-trademark">Placeholder® is a registered trademark of Placeholder Corp, Inc. Studio Name LLC is not affiliated with, endorsed by, or sponsored by Placeholder Corp, Inc.</p>
     <div class="social-row">
-      <div class="social-icon" title="X / Twitter">
-        <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+
+      <!-- Discord -->
+      <div class="social-icon" title="Discord">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.031.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+        </svg>
       </div>
-      <div class="social-icon" title="Instagram">
-        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+
+      <!-- TikTok -->
+      <div class="social-icon" title="TikTok">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.16 8.16 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/>
+        </svg>
       </div>
-      <div class="social-icon" title="LinkedIn">
-        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-      </div>
-      <div class="social-icon" title="Email">
-        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-      </div>
+
+      <!-- YouTube -->
       <div class="social-icon" title="YouTube">
-        <svg viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
+        </svg>
       </div>
+
+      <!-- Twitch -->
+      <div class="social-icon" title="Twitch">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/>
+        </svg>
+      </div>
+
+      <!-- Twitter / X -->
+      <div class="social-icon" title="Twitter / X">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      </div>
+
+      <!-- Email -->
+      <div class="social-icon" title="Email">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+        </svg>
+      </div>
+
     </div>
   </div>
   <div class="footer-divider"></div>
@@ -341,28 +412,58 @@
   function toggleDropdown() { document.getElementById('navDropdown').classList.toggle('open'); }
   document.addEventListener('click', e => { const dd = document.getElementById('navDropdown'); if (!dd.contains(e.target)) dd.classList.remove('open'); });
 
-  // Slideshow
+  // ── SLIDESHOW (no bounce fix) ──
+  // All slides are position:absolute inside a fixed-height container.
+  // We never toggle display, only opacity + animations.
   let current = 0, total = 3, animating = false;
-  const getSlide = i => document.getElementById('slide-'+i);
-  const getDots  = ()=> document.querySelectorAll('.dot');
-  function updateDots(){ getDots().forEach((d,i)=> d.classList.toggle('active', i===current)); }
-  function changeSlide(dir){ if(animating) return; animateTo((current+dir+total)%total, dir); }
-  function goToSlide(idx){ if(animating||idx===current) return; animateTo(idx, idx>current?1:-1); }
-  function animateTo(next, dir){
-    animating = true;
-    const cur = getSlide(current), nxt = getSlide(next);
-    cur.style.display='block'; cur.classList.add(dir>0?'slide-out-left':'slide-out-right');
-    nxt.classList.add('active', dir>0?'slide-in-right':'slide-in-left'); nxt.style.display='block';
-    setTimeout(()=>{
-      cur.classList.remove('active','slide-out-left','slide-out-right'); cur.style.display='';
-      nxt.classList.remove('slide-in-left','slide-in-right');
-      current=next; updateDots(); animating=false;
-    }, 480);
+
+  function getSlide(i) { return document.getElementById('slide-' + i); }
+
+  function updateDots() {
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
   }
-  setInterval(()=> changeSlide(1), 5000);
+
+  function changeSlide(dir) {
+    if (animating) return;
+    goToSlide((current + dir + total) % total, dir);
+  }
+
+  function goToSlide(idx, dir) {
+    if (animating) return;
+    if (idx === current) return;
+    if (dir === undefined) dir = idx > current ? 1 : -1;
+
+    animating = true;
+    const cur = getSlide(current);
+    const nxt = getSlide(idx);
+
+    // Animate out current
+    cur.classList.add(dir > 0 ? 'anim-out-left' : 'anim-out-right');
+
+    // Animate in next
+    nxt.classList.add('active', dir > 0 ? 'anim-in-right' : 'anim-in-left');
+
+    setTimeout(() => {
+      cur.classList.remove('active', 'anim-out-left', 'anim-out-right');
+      nxt.classList.remove('anim-in-left', 'anim-in-right');
+      current = idx;
+      updateDots();
+      animating = false;
+    }, 450);
+  }
+
+  // dot click (no dir needed — goToSlide infers it)
+  document.querySelectorAll('.dot').forEach((d, i) => {
+    d.addEventListener('click', () => { if (i !== current) goToSlide(i); });
+  });
+
+  // Auto-advance
+  setInterval(() => changeSlide(1), 5000);
 
   // Scroll reveal
-  const observer = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold:.12});
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 </body>

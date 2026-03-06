@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.rarity-text-bg {
+    pointer-events: none;
+    border-radius: 4px 6px;
+    display: inline-block;
+    transform: skew(-10deg);
+    padding: 1px 6px;
+    margin: 1px 0;
+    line-height: 1.5 !important;
+    transition: 75ms ease
+}
+.rarity-text-bg {
+    pointer-events: none;
+    border-radius: 4px 6px;
+    display: inline-block;
+    transform: skew(-10deg);
+    padding: 1px 6px;
+    margin: 1px 0;
+    line-height: 1.5 !important;
+    transition: 75ms ease
+}
+
+.rarity-text {
+    display: inline-block;
+    text-transform: uppercase;
+    font-family: 'Heading Now Variable',rubik,sans-serif;
+    font-variation-settings: 'wdth' 725,'wght' 650;
+    font-weight: 800;
+    font-size: 14px
+}
+.mythic-tbg {
+    background-color: #C29727
+}
+.mythic-text {
+    color: #FFF0A6
+}
+</style>
+</head>
+<body>
+
+<strong class="mw-selflink selflink"><span class="rarity-text-bg mythic-tbg"><span class="rarity-text mythic-text">Mythic</span></span></strong>
+
+</body>
+</html>

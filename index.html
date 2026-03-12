@@ -1,46 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Studio Name</title>
+  <title>Team Or1gin</title>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+ 
     :root {
-      --gold: #F5A623; --gold-dark: #D4891A;
-      --black: #0a0a0a; --text: #ffffff; --muted: #aaaaaa; --radius: 999px;
+      --gold: #F5A623;
+      --gold-dark: #D4891A;
+      --radius: 999px;
     }
+ 
+    /* DARK THEME (default) */
+    [data-theme="dark"] {
+      --bg: #0a0a0a;
+      --surface: rgba(18,18,18,0.88);
+      --surface-solid: #121212;
+      --text: #ffffff;
+      --muted: #aaaaaa;
+      --border: rgba(245,166,35,0.15);
+      --border-subtle: rgba(255,255,255,0.07);
+      --nav-btn-border: rgba(255,255,255,0.11);
+      --footer-link-color: rgba(255,255,255,0.46);
+      --footer-sep-color: rgba(255,255,255,0.18);
+      --social-color: rgba(255,255,255,0.45);
+      --toggle-bg: rgba(255,255,255,0.08);
+      --toggle-border: rgba(255,255,255,0.15);
+      --toggle-icon-color: #aaa;
+    }
+ 
+    /* LIGHT THEME */
+    [data-theme="light"] {
+      --bg: #f5f4f0;
+      --surface: rgba(255,255,255,0.90);
+      --surface-solid: #ffffff;
+      --text: #111111;
+      --muted: #555555;
+      --border: rgba(245,166,35,0.30);
+      --border-subtle: rgba(0,0,0,0.09);
+      --nav-btn-border: rgba(0,0,0,0.14);
+      --footer-link-color: rgba(0,0,0,0.46);
+      --footer-sep-color: rgba(0,0,0,0.18);
+      --social-color: rgba(0,0,0,0.45);
+      --toggle-bg: rgba(0,0,0,0.06);
+      --toggle-border: rgba(0,0,0,0.12);
+      --toggle-icon-color: #555;
+    }
+ 
     html { scroll-behavior: smooth; }
-    body { font-family: 'Google Sans',sans-serif; background: var(--black); color: var(--text); overflow-x: hidden; }
-
-    /* NAV */
+    body {
+      font-family: 'Google Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      transition: background 0.35s, color 0.35s;
+    }
+ 
+    /* ─── NAV ─── */
     nav {
       position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
       width: calc(100% - 48px); max-width: 1400px;
-      background: rgba(18,18,18,0.88); backdrop-filter: blur(24px);
-      border: 1px solid rgba(245,166,35,0.15); border-radius: var(--radius);
+      background: var(--surface); backdrop-filter: blur(24px);
+      border: 1px solid var(--border); border-radius: var(--radius);
       padding: 11px 22px; display: flex; align-items: center; justify-content: space-between;
-      z-index: 1000; box-shadow: 0 8px 40px rgba(0,0,0,0.55);
+      z-index: 1000; box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+      transition: background 0.35s, border-color 0.35s;
     }
     .nav-brand { display: flex; align-items: center; gap: 11px; text-decoration: none; }
     .nav-logo {
       width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
-      background: linear-gradient(135deg,var(--gold),var(--gold-dark));
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
       display: flex; align-items: center; justify-content: center;
-      font-size: 17px; font-weight: 800; color: #000;
+      font-size: 14px; font-weight: 800; color: #000; letter-spacing: -0.5px;
     }
-    .nav-name { font-size: 16px; font-weight: 700; color: var(--text); }
+    .nav-name { font-size: 16px; font-weight: 700; color: var(--text); transition: color 0.35s; }
     .nav-right { display: flex; align-items: center; gap: 7px; }
     .nav-btn {
-      background: transparent; border: 1px solid rgba(255,255,255,0.11); color: var(--text);
+      background: transparent; border: 1px solid var(--nav-btn-border); color: var(--text);
       padding: 8px 18px; border-radius: var(--radius); font-family: inherit;
       font-size: 13px; font-weight: 500; cursor: pointer; transition: all .22s;
     }
     .nav-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(245,166,35,0.06); }
+ 
+    /* Theme toggle */
+    .theme-toggle {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--toggle-bg); border: 1px solid var(--toggle-border);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all .22s; color: var(--toggle-icon-color);
+    }
+    .theme-toggle:hover { border-color: var(--gold); color: var(--gold); background: rgba(245,166,35,0.1); }
+    .theme-toggle svg { width: 17px; height: 17px; }
+    .icon-moon { display: block; }
+    .icon-sun  { display: none; }
+    [data-theme="light"] .icon-moon { display: none; }
+    [data-theme="light"] .icon-sun  { display: block; }
+ 
+    /* Dropdown */
     .nav-dropdown { position: relative; }
     .nav-dropdown-btn {
-      background: linear-gradient(135deg,var(--gold),var(--gold-dark)); border: none; color: #000;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark)); border: none; color: #000;
       padding: 8px 18px; border-radius: var(--radius); font-family: inherit;
       font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: filter .22s;
     }
@@ -49,60 +111,58 @@
     .nav-dropdown.open .nav-dropdown-btn svg { transform: rotate(180deg); }
     .dropdown-menu {
       position: absolute; top: calc(100% + 10px); right: 0;
-      background: rgba(18,18,18,0.97); border: 1px solid rgba(245,166,35,0.2);
-      border-radius: 16px; padding: 7px; min-width: 170px;
+      background: var(--surface-solid); border: 1px solid var(--border);
+      border-radius: 16px; padding: 7px; min-width: 180px;
       opacity: 0; pointer-events: none; transform: translateY(-8px); transition: all .22s; backdrop-filter: blur(20px);
     }
     .nav-dropdown.open .dropdown-menu { opacity: 1; pointer-events: all; transform: translateY(0); }
     .dropdown-item {
-      display: block; padding: 9px 15px; color: var(--muted); font-size: 13px;
+      display: flex; align-items: center; gap: 9px;
+      padding: 9px 15px; color: var(--muted); font-size: 13px;
       font-weight: 500; border-radius: 10px; cursor: pointer; transition: all .18s;
       border: none; background: none; width: 100%; text-align: left; font-family: inherit;
     }
     .dropdown-item:hover { background: rgba(245,166,35,0.1); color: var(--gold); }
-
-    /* ── HERO ── */
-    .hero {
-      position: relative; height: 100vh; min-height: 640px; overflow: hidden;
+    .dropdown-item svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .dropdown-divider { height: 1px; background: var(--border-subtle); margin: 5px 7px; }
+ 
+    /* ─── HERO ─── */
+    .hero { position: relative; height: 100vh; min-height: 640px; overflow: hidden; }
+ 
+    /* Per-slide background images — no blur, no fade */
+    .slide-bg {
+      position: absolute; inset: 0; z-index: 0;
+      opacity: 0; transition: opacity 0.55s ease;
     }
-    .hero-bg { position: absolute; inset: 0; z-index: 0; }
-    .hero-bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.2; filter: blur(3px); }
+    .slide-bg.active { opacity: 1; }
+    .slide-bg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+ 
+    /* Subtle vignette only at bottom so text is legible */
     .hero-overlay {
       position: absolute; inset: 0; z-index: 1;
-      background: linear-gradient(180deg,rgba(10,10,10,.35) 0%,rgba(10,10,10,.65) 55%,var(--black) 100%);
+      background: linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.22) 50%, rgba(0,0,0,0.62) 100%);
+      pointer-events: none;
     }
-
-    /* ── SLIDESHOW FIX: container holds fixed height, slides are absolute ── */
+    [data-theme="light"] .hero-overlay {
+      background: linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.14) 50%, rgba(245,244,240,0.80) 100%);
+    }
+ 
+    /* Slideshow content */
     .slideshow-container {
       position: absolute; inset: 0; z-index: 2;
       display: flex; align-items: center; justify-content: center;
     }
     .slideshow-wrapper {
-      position: relative;
-      width: 100%; max-width: 860px;
-      /* Fixed height prevents layout collapse when switching slides */
-      height: 440px;
-      padding: 0 80px;
+      position: relative; width: 100%; max-width: 860px; height: 440px; padding: 0 80px;
     }
     .slide {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 0 24px;
-      opacity: 0;
-      pointer-events: none;
-      transition: none;
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 0 24px;
+      opacity: 0; pointer-events: none; transition: none;
     }
-    .slide.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    /* Keyframe animations */
+    .slide.active { opacity: 1; pointer-events: all; }
+ 
     @keyframes siL  { from{opacity:0;transform:translateX(-70px)} to{opacity:1;transform:translateX(0)} }
     @keyframes siR  { from{opacity:0;transform:translateX(70px)}  to{opacity:1;transform:translateX(0)} }
     @keyframes soL  { from{opacity:1;transform:translateX(0)} to{opacity:0;transform:translateX(-70px)} }
@@ -111,35 +171,35 @@
     .slide.anim-in-right  { animation: siR .45s ease forwards; }
     .slide.anim-out-left  { animation: soL .45s ease forwards; pointer-events: none; }
     .slide.anim-out-right { animation: soR .45s ease forwards; pointer-events: none; }
-
+ 
     .slide-tag {
-      display: inline-block; background: rgba(245,166,35,0.12); border: 1px solid rgba(245,166,35,0.38);
+      display: inline-block; background: rgba(245,166,35,0.14); border: 1px solid rgba(245,166,35,0.45);
       color: var(--gold); font-size: 10.5px; font-weight: 700; letter-spacing: 2px;
       text-transform: uppercase; padding: 5px 15px; border-radius: var(--radius); margin-bottom: 18px;
     }
     .slide-title {
       font-size: clamp(36px,5.8vw,70px); font-weight: 800; line-height: 1.07;
-      letter-spacing: -1.5px; color: var(--text); margin-bottom: 20px;
+      letter-spacing: -1.5px; color: #fff; margin-bottom: 20px;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.5);
     }
     .slide-title span { color: var(--gold); }
-    .slide-sub1 { font-size: 17px; font-weight: 500; color: var(--muted); margin-bottom: 7px; }
-    .slide-sub2 { font-size: 13.5px; font-weight: 400; color: rgba(170,170,170,.65); margin-bottom: 40px; }
+    .slide-sub1 { font-size: 17px; font-weight: 500; color: rgba(255,255,255,0.88); margin-bottom: 7px; text-shadow: 0 1px 8px rgba(0,0,0,0.5); }
+    .slide-sub2 { font-size: 13.5px; font-weight: 400; color: rgba(255,255,255,0.6); margin-bottom: 40px; text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
     .slide-cta { display: inline-flex; gap: 11px; flex-wrap: wrap; justify-content: center; }
-
+ 
     .btn-primary {
       background: linear-gradient(135deg,var(--gold),var(--gold-dark)); color: #000; border: none;
       padding: 13px 30px; border-radius: var(--radius); font-family: inherit;
-      font-size: 13.5px; font-weight: 700; cursor: pointer; transition: filter .22s,transform .22s;
+      font-size: 13.5px; font-weight: 700; cursor: pointer; transition: filter .22s, transform .22s;
     }
     .btn-primary:hover { filter: brightness(1.1); transform: translateY(-2px); }
     .btn-outline {
-      background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,.22);
+      background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.35);
       padding: 13px 30px; border-radius: var(--radius); font-family: inherit;
-      font-size: 13.5px; font-weight: 600; cursor: pointer; transition: all .22s;
+      font-size: 13.5px; font-weight: 600; cursor: pointer; transition: all .22s; backdrop-filter: blur(6px);
     }
-    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
-
-    /* Arrow buttons — positioned over the slideshow container */
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); background: rgba(245,166,35,0.12); }
+ 
     .slide-arrows {
       position: absolute; top: 50%; transform: translateY(-50%);
       left: 0; right: 0; display: flex; justify-content: space-between;
@@ -147,108 +207,162 @@
     }
     .arrow-btn {
       pointer-events: all; width: 50px; height: 50px; border-radius: 50%;
-      background: rgba(18,18,18,0.72); border: 1px solid rgba(245,166,35,0.22); color: var(--text);
-      display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all .22s; backdrop-filter: blur(10px);
+      background: rgba(18,18,18,0.55); border: 1px solid rgba(245,166,35,0.22); color: #fff;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      transition: all .22s; backdrop-filter: blur(10px);
     }
-    .arrow-btn:hover { background: rgba(245,166,35,0.18); border-color: var(--gold); color: var(--gold); }
-
+    .arrow-btn:hover { background: rgba(245,166,35,0.22); border-color: var(--gold); color: var(--gold); }
+ 
     .slide-dots { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); display: flex; gap: 7px; z-index: 3; }
-    .dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.28); cursor: pointer; transition: all .28s; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.35); cursor: pointer; transition: all .28s; }
     .dot.active { background: var(--gold); width: 22px; border-radius: var(--radius); }
-
-    /* ABOUT */
-    .about-section { padding: 100px 24px; max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+ 
+    /* ─── ABOUT ─── */
+    .about-section {
+      padding: 100px 24px; max-width: 1080px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center;
+    }
     @media(max-width:768px){ .about-section{grid-template-columns:1fr;gap:40px;} }
     .section-label { font-size: 10.5px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
     .section-title { font-size: clamp(26px,3.8vw,44px); font-weight: 800; letter-spacing: -1px; line-height: 1.1; margin-bottom: 18px; }
     .section-title span { color: var(--gold); }
-    .about-text { font-size: 14.5px; line-height: 1.8; color: var(--muted); margin-bottom: 14px; }
-    .about-img-wrap { position: relative; border-radius: 22px; overflow: hidden; aspect-ratio: 4/3; border: 1px solid rgba(245,166,35,0.14); }
+    .about-text { font-size: 14.5px; line-height: 1.8; color: var(--muted); margin-bottom: 14px; transition: color 0.35s; }
+    .about-img-wrap { position: relative; border-radius: 22px; overflow: hidden; aspect-ratio: 4/3; border: 1px solid var(--border); }
     .about-img-wrap img { width: 100%; height: 100%; object-fit: cover; filter: brightness(.72); }
     .about-img-overlay { position: absolute; inset: 0; background: linear-gradient(135deg,rgba(245,166,35,.13) 0%,transparent 60%); }
     .stat-row { display: flex; gap: 30px; margin-top: 30px; }
     .stat-num { font-size: 30px; font-weight: 800; color: var(--gold); line-height: 1; }
-    .stat-label { font-size: 11.5px; color: var(--muted); margin-top: 3px; }
-
-    /* CONTACT */
+    .stat-label { font-size: 11.5px; color: var(--muted); margin-top: 3px; transition: color 0.35s; }
+ 
+    /* ─── CONTACT ─── */
     .contact-section { padding: 96px 24px; text-align: center; max-width: 680px; margin: 0 auto; }
-    .contact-subtitle { font-size: 15.5px; color: var(--muted); line-height: 1.7; margin-bottom: 38px; }
+    .contact-subtitle { font-size: 15.5px; color: var(--muted); line-height: 1.7; margin-bottom: 38px; transition: color 0.35s; }
     .btn-contact {
       display: inline-flex; align-items: center; gap: 9px;
       background: linear-gradient(135deg,var(--gold),var(--gold-dark)); color: #000; border: none;
       padding: 17px 50px; border-radius: var(--radius); font-family: inherit;
       font-size: 15px; font-weight: 700; cursor: pointer;
-      transition: filter .22s,transform .22s,box-shadow .22s;
+      transition: filter .22s, transform .22s, box-shadow .22s;
       box-shadow: 0 8px 30px rgba(245,166,35,.28);
     }
     .btn-contact:hover { filter: brightness(1.1); transform: translateY(-3px); box-shadow: 0 14px 40px rgba(245,166,35,.42); }
-
-    /* FOOTER */
-    .divider { width: calc(100% - 48px); max-width: 1200px; margin: 0 auto; height: 1px; background: rgba(255,255,255,.07); }
+ 
+    /* ─── FOOTER ─── */
+    .divider { width: calc(100% - 48px); max-width: 1200px; margin: 0 auto; height: 1px; background: var(--border-subtle); }
     footer { padding: 60px 24px 30px; max-width: 1180px; margin: 0 auto; }
     .footer-top { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 7px; margin-bottom: 28px; }
     .footer-logo-wrap { display: flex; align-items: center; gap: 13px; margin-bottom: 6px; }
     .footer-logo {
       width: 52px; height: 52px; border-radius: 12px;
       background: linear-gradient(135deg,var(--gold),var(--gold-dark));
-      display: flex; align-items: center; justify-content: center; font-size: 21px; font-weight: 800; color: #000;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 800; color: #000; letter-spacing: -0.5px;
     }
-    .footer-copy { font-size: 13px; color: var(--muted); }
-    .footer-trademark { font-size: 11px; color: rgba(170,170,170,.5); max-width: 680px; line-height: 1.6; }
+    .footer-copy { font-size: 13px; color: var(--muted); transition: color 0.35s; }
+    .footer-trademark { font-size: 11px; color: var(--footer-sep-color); max-width: 680px; line-height: 1.6; }
     .social-row { display: flex; gap: 16px; justify-content: center; margin-top: 22px; }
-    .social-icon { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.45); cursor: pointer; transition: color .18s,transform .18s; }
+    .social-icon {
+      width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
+      color: var(--social-color); cursor: pointer; transition: color .18s, transform .18s;
+      text-decoration: none;
+    }
     .social-icon:hover { color: var(--gold); transform: translateY(-2px); }
     .social-icon svg { width: 19px; height: 19px; fill: currentColor; }
-    .footer-divider { height: 1px; background: rgba(255,255,255,.07); margin: 26px 0; }
+    .footer-divider { height: 1px; background: var(--border-subtle); margin: 26px 0; }
     .footer-links { display: flex; gap: 7px; justify-content: center; align-items: center; flex-wrap: wrap; }
     .footer-link {
-      color: rgba(255,255,255,.46); font-size: 13px; font-weight: 500;
+      color: var(--footer-link-color); font-size: 13px; font-weight: 500;
       text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
       transition: color .18s; background: none; border: none; font-family: inherit;
     }
     .footer-link:hover { color: var(--gold); }
-    .footer-sep { color: rgba(255,255,255,.18); font-size: 13px; }
-
-    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .65s ease,transform .65s ease; }
+    .footer-sep { color: var(--footer-sep-color); font-size: 13px; }
+ 
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .65s ease, transform .65s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
+ 
+    /* Background section wraps for light mode */
+    .about-bg, .contact-bg { background: var(--bg); transition: background 0.35s; }
   </style>
 </head>
 <body>
-
+ 
 <!-- NAV -->
 <nav>
   <a class="nav-brand" href="#">
-    <div class="nav-logo">S</div>
-    <span class="nav-name">Studio Name</span>
+    <div class="nav-logo">Or1</div>
+    <span class="nav-name">Team Or1gin</span>
   </a>
   <div class="nav-right">
     <button class="nav-btn">Home</button>
     <button class="nav-btn">About</button>
-    <button class="nav-btn">Portfolio</button>
-    <button class="nav-btn">Services</button>
+    <button class="nav-btn">Roster</button>
+    <button class="nav-btn">Merch</button>
+ 
+    <!-- Dark/Light toggle -->
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+      <!-- Moon (shown in dark mode) -->
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+      <!-- Sun (shown in light mode) -->
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+    </button>
+ 
     <div class="nav-dropdown" id="navDropdown">
       <button class="nav-dropdown-btn" onclick="toggleDropdown()">
         More
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
       </button>
       <div class="dropdown-menu">
-        <button class="dropdown-item">Blog</button>
-        <button class="dropdown-item">News</button>
-        <button class="dropdown-item">Careers</button>
-        <button class="dropdown-item">Partners</button>
+        <button class="dropdown-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Blog
+        </button>
+        <button class="dropdown-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          News
+        </button>
+        <button class="dropdown-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          Careers
+        </button>
+        <button class="dropdown-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Partners
+        </button>
+        <div class="dropdown-divider"></div>
+        <button class="dropdown-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Hall of Fame
+        </button>
       </div>
     </div>
   </div>
 </nav>
-
+ 
 <!-- HERO -->
 <section class="hero" id="hero">
-  <div class="hero-bg">
-    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1920&q=80" alt="Hero BG" />
+ 
+  <!-- Per-slide still backgrounds (no blur, no overlay fade) -->
+  <div class="slide-bg active" id="bg-0">
+    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1920&q=85" alt="Slide 1 background" />
   </div>
+  <div class="slide-bg" id="bg-1">
+    <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1920&q=85" alt="Slide 2 background" />
+  </div>
+  <div class="slide-bg" id="bg-2">
+    <img src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=1920&q=85" alt="Slide 3 background" />
+  </div>
+ 
   <div class="hero-overlay"></div>
-
-  <!-- Arrows sit on top of everything -->
+ 
+  <!-- Arrow buttons -->
   <div class="slide-arrows">
     <button class="arrow-btn" onclick="changeSlide(-1)">
       <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -257,140 +371,129 @@
       <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
     </button>
   </div>
-
-  <!-- Fixed-height container: no layout shift -->
+ 
   <div class="slideshow-container">
     <div class="slideshow-wrapper">
-
+ 
       <div class="slide active" id="slide-0">
-        <div class="slide-tag">Featured · 2026</div>
-        <h1 class="slide-title">Your Main<br><span>Title Here</span></h1>
-        <p class="slide-sub1">Placeholder subtitle — describe your content or feature here</p>
-        <p class="slide-sub2">A secondary supporting line with extra detail or information goes right here</p>
+        <div class="slide-tag">Season 2026 · Active</div>
+        <h1 class="slide-title">Welcome to<br><span>Team Or1gin</span></h1>
+        <p class="slide-sub1">Competing at the highest level — built from the ground up</p>
+        <p class="slide-sub2">Follow our journey across tournaments, leagues, and championships worldwide</p>
         <div class="slide-cta">
-          <button class="btn-primary">Get Started</button>
-          <button class="btn-outline">Learn More</button>
+          <button class="btn-primary">Meet the Roster</button>
+          <button class="btn-outline">Our Story</button>
         </div>
       </div>
-
+ 
       <div class="slide" id="slide-1">
-        <div class="slide-tag">Spotlight · Season 1</div>
-        <h1 class="slide-title">Second<br><span>Slide Title</span></h1>
-        <p class="slide-sub1">Replace this with your second feature's subtitle or tagline</p>
-        <p class="slide-sub2">Supporting description or extra detail for your second slide goes here</p>
+        <div class="slide-tag">Competitive · Esports</div>
+        <h1 class="slide-title">Play with<br><span>Purpose</span></h1>
+        <p class="slide-sub1">Every match is a chance to prove what Or1gin is made of</p>
+        <p class="slide-sub2">Dedicated coaches, analysts, and players pushing the meta every single day</p>
         <div class="slide-cta">
-          <button class="btn-primary">Explore Now</button>
-          <button class="btn-outline">Watch Trailer</button>
+          <button class="btn-primary">View Schedule</button>
+          <button class="btn-outline">Watch Live</button>
         </div>
       </div>
-
+ 
       <div class="slide" id="slide-2">
-        <div class="slide-tag">New · Coming Soon</div>
-        <h1 class="slide-title"><span>Third</span> Slide<br>Placeholder</h1>
-        <p class="slide-sub1">Your third feature's catchy subtitle lives right here</p>
-        <p class="slide-sub2">Fill this space with an enticing secondary line for slide three</p>
+        <div class="slide-tag">New Drop · Merch</div>
+        <h1 class="slide-title"><span>Or1gin</span><br>Collection '26</h1>
+        <p class="slide-sub1">Rep the brand — limited edition gear now available</p>
+        <p class="slide-sub2">Hoodies, jerseys, and accessories designed for fans and players alike</p>
         <div class="slide-cta">
-          <button class="btn-primary">Join Waitlist</button>
-          <button class="btn-outline">Read More</button>
+          <button class="btn-primary">Shop Now</button>
+          <button class="btn-outline">See Lookbook</button>
         </div>
       </div>
-
+ 
     </div>
   </div>
-
+ 
   <div class="slide-dots" id="dots">
     <div class="dot active" onclick="goToSlide(0)"></div>
     <div class="dot" onclick="goToSlide(1)"></div>
     <div class="dot" onclick="goToSlide(2)"></div>
   </div>
 </section>
-
+ 
 <!-- ABOUT -->
-<section style="background:var(--black)">
+<div class="about-bg">
   <div class="about-section reveal">
     <div>
       <div class="section-label">About Us</div>
-      <h2 class="section-title">We Are <span>Studio Name</span></h2>
-      <p class="about-text">This is your About Us placeholder paragraph. Replace this text with a compelling introduction to your studio, team, or brand. Tell visitors who you are and what makes you unique.</p>
-      <p class="about-text">Add more detail here — your mission, your values, or your story. Describe what drives your work and why your audience should care. Keep it genuine and aligned with your brand.</p>
+      <h2 class="section-title">We Are <span>Team Or1gin</span></h2>
+      <p class="about-text">This is your About Us placeholder paragraph. Replace this text with a compelling introduction to your team, organisation, or brand. Tell visitors who you are and what makes Or1gin unique.</p>
+      <p class="about-text">Add more detail here — your mission, your values, or your story. Describe what drives your competitive spirit and why fans should rally behind the Or1gin name.</p>
       <div class="stat-row">
-        <div class="stat"><div class="stat-num">00+</div><div class="stat-label">Projects Done</div></div>
-        <div class="stat"><div class="stat-num">00+</div><div class="stat-label">Team Members</div></div>
-        <div class="stat"><div class="stat-num">00+</div><div class="stat-label">Happy Clients</div></div>
+        <div class="stat"><div class="stat-num">00+</div><div class="stat-label">Tournaments Won</div></div>
+        <div class="stat"><div class="stat-num">00+</div><div class="stat-label">Active Players</div></div>
+        <div class="stat"><div class="stat-num">00+</div><div class="stat-label">Community Members</div></div>
       </div>
     </div>
     <div class="about-img-wrap">
-      <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80" alt="About placeholder" />
+      <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80" alt="Team Or1gin" />
       <div class="about-img-overlay"></div>
     </div>
   </div>
-</section>
-
+</div>
+ 
 <!-- CONTACT -->
 <div class="divider"></div>
-<section class="contact-section reveal">
-  <div class="section-label">Get In Touch</div>
-  <h2 class="section-title">Let's Work <span>Together</span></h2>
-  <p class="contact-subtitle">Replace this subtitle with a short invitation. Tell visitors why they should reach out — a partnership, project inquiry, question, or just to say hello.</p>
-  <button class="btn-contact">
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-    Contact Us
-  </button>
-</section>
-
+<div class="contact-bg">
+  <section class="contact-section reveal">
+    <div class="section-label">Get In Touch</div>
+    <h2 class="section-title">Let's Work <span>Together</span></h2>
+    <p class="contact-subtitle">Whether it's a sponsorship, partnership, fan inquiry, or just wanting to say hello — the Or1gin team is always open to connecting.</p>
+    <button class="btn-contact">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Contact Us
+    </button>
+  </section>
+</div>
+ 
 <!-- FOOTER -->
 <div class="divider"></div>
 <footer class="reveal">
   <div class="footer-top">
     <div class="footer-logo-wrap">
-      <div class="footer-logo">S</div>
+      <div class="footer-logo">Or1</div>
     </div>
-    <p class="footer-copy">© 2026 Studio Name LLC. All rights reserved.</p>
-    <p class="footer-trademark">Placeholder® is a registered trademark of Placeholder Corp, Inc. Studio Name LLC is not affiliated with, endorsed by, or sponsored by Placeholder Corp, Inc.</p>
+    <p class="footer-copy">© 2026 Team Or1gin LLC. All rights reserved.</p>
+    <p class="footer-trademark">Or1gin® and related marks are trademarks of Team Or1gin LLC. All third-party trademarks referenced are the property of their respective owners.</p>
     <div class="social-row">
-
+ 
       <!-- Discord -->
-      <div class="social-icon" title="Discord">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.031.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-        </svg>
-      </div>
-
+      <a class="social-icon" href="https://www.google.com" target="_blank" rel="noopener" title="Discord">
+        <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.031.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+      </a>
+ 
       <!-- TikTok -->
-      <div class="social-icon" title="TikTok">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.16 8.16 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/>
-        </svg>
-      </div>
-
+      <a class="social-icon" href="https://www.google.com" target="_blank" rel="noopener" title="TikTok">
+        <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.16 8.16 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+      </a>
+ 
       <!-- YouTube -->
-      <div class="social-icon" title="YouTube">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
-        </svg>
-      </div>
-
+      <a class="social-icon" href="https://www.google.com" target="_blank" rel="noopener" title="YouTube">
+        <svg viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+      </a>
+ 
       <!-- Twitch -->
-      <div class="social-icon" title="Twitch">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/>
-        </svg>
-      </div>
-
+      <a class="social-icon" href="https://www.google.com" target="_blank" rel="noopener" title="Twitch">
+        <svg viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+      </a>
+ 
       <!-- Twitter / X -->
-      <div class="social-icon" title="Twitter / X">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-        </svg>
-      </div>
-
+      <a class="social-icon" href="https://www.google.com" target="_blank" rel="noopener" title="Twitter / X">
+        <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+ 
       <!-- Email -->
-      <div class="social-icon" title="Email">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-        </svg>
-      </div>
-
+      <a class="social-icon" href="https://www.google.com" target="_blank" rel="noopener" title="Email">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      </a>
+ 
     </div>
   </div>
   <div class="footer-divider"></div>
@@ -406,43 +509,52 @@
     <button class="footer-link">Community Guidelines</button>
   </div>
 </footer>
-
+ 
 <script>
-  // Dropdown
+  // ─── THEME TOGGLE ───
+  function toggleTheme() {
+    const html = document.documentElement;
+    html.setAttribute('data-theme', html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  }
+ 
+  // ─── DROPDOWN ───
   function toggleDropdown() { document.getElementById('navDropdown').classList.toggle('open'); }
-  document.addEventListener('click', e => { const dd = document.getElementById('navDropdown'); if (!dd.contains(e.target)) dd.classList.remove('open'); });
-
-  // ── SLIDESHOW (no bounce fix) ──
-  // All slides are position:absolute inside a fixed-height container.
-  // We never toggle display, only opacity + animations.
+  document.addEventListener('click', e => {
+    const dd = document.getElementById('navDropdown');
+    if (!dd.contains(e.target)) dd.classList.remove('open');
+  });
+ 
+  // ─── SLIDESHOW (with per-slide backgrounds) ───
   let current = 0, total = 3, animating = false;
-
+ 
   function getSlide(i) { return document.getElementById('slide-' + i); }
-
+  function getBg(i)    { return document.getElementById('bg-' + i); }
+ 
   function updateDots() {
     document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
   }
-
+ 
   function changeSlide(dir) {
     if (animating) return;
     goToSlide((current + dir + total) % total, dir);
   }
-
+ 
   function goToSlide(idx, dir) {
-    if (animating) return;
-    if (idx === current) return;
+    if (animating || idx === current) return;
     if (dir === undefined) dir = idx > current ? 1 : -1;
-
+ 
     animating = true;
-    const cur = getSlide(current);
-    const nxt = getSlide(idx);
-
-    // Animate out current
+    const cur = getSlide(current), nxt = getSlide(idx);
+    const curBg = getBg(current), nxtBg = getBg(idx);
+ 
+    // Swap background
+    curBg.classList.remove('active');
+    nxtBg.classList.add('active');
+ 
+    // Animate slide content
     cur.classList.add(dir > 0 ? 'anim-out-left' : 'anim-out-right');
-
-    // Animate in next
     nxt.classList.add('active', dir > 0 ? 'anim-in-right' : 'anim-in-left');
-
+ 
     setTimeout(() => {
       cur.classList.remove('active', 'anim-out-left', 'anim-out-right');
       nxt.classList.remove('anim-in-left', 'anim-in-right');
@@ -451,16 +563,14 @@
       animating = false;
     }, 450);
   }
-
-  // dot click (no dir needed — goToSlide infers it)
+ 
   document.querySelectorAll('.dot').forEach((d, i) => {
     d.addEventListener('click', () => { if (i !== current) goToSlide(i); });
   });
-
-  // Auto-advance
+ 
   setInterval(() => changeSlide(1), 5000);
-
-  // Scroll reveal
+ 
+  // ─── SCROLL REVEAL ───
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.12 });

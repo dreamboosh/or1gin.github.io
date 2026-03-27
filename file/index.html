@@ -9,11 +9,12 @@
 <script>
 const url = 'https://raw.githubusercontent.com/dreamboosh/or1gin.github.io/refs/heads/main/data.json';
 
-const response = await fetch(url);
-
-const text = await response.text();
-
-document.getElementById("test").innerHTML = text;
+async function loadData() {
+  let response = await fetch(url);
+  let data = await response.json();
+  console.log(url);  
+  document.getElementById("test").innerHTML = url;
+}
 </script>
 
 </body>

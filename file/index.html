@@ -5,8 +5,16 @@
 </head>
 <body>
 
-<h1>This is a Heading</h1>
-<p>This is a paragraph.</p>
+<p id="test"></p>
+<script>
+const url = 'https://raw.githubusercontent.com/dreamboosh/or1gin.github.io/refs/heads/main/data.json';
+
+const response = await fetch(url);
+
+const text = await response.text();
+
+document.getElementById("test").innerHTML = text;
+</script>
 
 </body>
 </html>

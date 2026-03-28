@@ -1,1 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Or1gin Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    :root {
+      --gold: #F5A623;
+      --gold-dark: #D4891A;
+      --blue: #3B82F6;
+      --blue-mid: #1E40AF;
+      --blue-glow: rgba(59,130,246,0.5);
+      --radius: 999px;
+      --bg: #0a0a0a;
+      --surface: rgba(18,18,18,0.92);
+      --text: #ffffff;
+      --muted: #aaaaaa;
+      --border-subtle: rgba(255,255,255,0.07);
+      --card-bg: rgba(255,255,255,0.04);
+      --card-border: rgba(255,255,255,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Google Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ─── TOP BAR ─── */
+    .topbar {
+      position: fixed; top: 0; left: 0; right: 0;
+      padding: 20px 36px;
+      display: flex; align-items: center;
+      z-index: 100;
+      /* subtle fade so it sits above the hero */
+      background: linear-gradient(180deg, rgba(0,0,0,0.55) 0%, transparent 100%);
+      pointer-events: none;
+    }
+    .topbar-brand {
+      pointer-events: all;
+      display: flex; align-items: center; gap: 11px;
+      text-decoration: none;
+    }
+    .topbar-logo {
+      width: 38px; height: 38px; border-radius: 9px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--blue), var(--blue-mid));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 800; color: #fff; letter-spacing: -0.5px;
+      box-shadow: 0 0 16px rgba(59,130,246,0.45);
+    }
+    .topbar-name {
+      font-size: 16px; font-weight: 700; color: #fff;
+      letter-spacing: -0.3px;
+    }
+    .topbar-name span {
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      height: 100vh; min-height: 620px;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* Multi-stop gradient: pure black → deep navy → blue glow at top */
+    .hero-gradient {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(59,130,246,0.38) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 50% at 50% 100%, rgba(10,10,30,0.9) 0%, transparent 70%),
+        linear-gradient(180deg, #060c1a 0%, #080f20 30%, #06091a 60%, #050508 100%);
+    }
+
+    /* Animated shimmer grid overlay */
+    .hero-grid {
+      position: absolute; inset: 0; z-index: 1;
+      background-image:
+        linear-gradient(rgba(59,130,246,0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,130,246,0.055) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, black 30%, transparent 75%);
+    }
+
+    /* Floating glow orb */
+    .hero-orb {
+      position: absolute; z-index: 1;
+      width: 520px; height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59,130,246,0.22) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%, -58%);
+      animation: orbPulse 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes orbPulse {
+      0%, 100% { opacity: 0.7; transform: translate(-50%, -58%) scale(1); }
+      50%       { opacity: 1;   transform: translate(-50%, -58%) scale(1.08); }
+    }
+
+    /* Bottom fade to body bg */
+    .hero-fade {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 220px; z-index: 2;
+      background: linear-gradient(0deg, var(--bg) 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    /* Hero content */
+    .hero-content {
+      position: relative; z-index: 3;
+      text-align: center;
+      padding: 0 24px;
+      animation: heroIn 0.9s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    @keyframes heroIn {
+      from { opacity: 0; transform: translateY(36px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-title {
+      font-size: clamp(42px, 7vw, 88px);
+      font-weight: 800;
+      line-height: 1.03;
+      letter-spacing: -2.5px;
+      color: #fff;
+      margin-bottom: 40px;
+      text-shadow: 0 0 60px rgba(59,130,246,0.35), 0 2px 24px rgba(0,0,0,0.6);
+    }
+    .hero-title span {
+      /* Blue text shimmer */
+      background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 40%, #93c5fd 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-cta {
+      display: inline-flex; gap: 14px; flex-wrap: wrap; justify-content: center;
+    }
+
+    .btn-hero-blue {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: #fff; border: none;
+      padding: 15px 38px; border-radius: var(--radius);
+      font-family: inherit; font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: all .25s;
+      box-shadow: 0 8px 28px rgba(59,130,246,0.4);
+    }
+    .btn-hero-blue:hover {
+      filter: brightness(1.15);
+      transform: translateY(-3px);
+      box-shadow: 0 14px 40px rgba(59,130,246,0.55);
+    }
+
+    .btn-hero-white {
+      background: rgba(255,255,255,0.10);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.30);
+      padding: 15px 38px; border-radius: var(--radius);
+      font-family: inherit; font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: all .25s;
+      backdrop-filter: blur(8px);
+    }
+    .btn-hero-white:hover {
+      background: rgba(255,255,255,0.18);
+      border-color: rgba(255,255,255,0.55);
+      transform: translateY(-3px);
+    }
+
+    /* ─── TOOLS SECTION ─── */
+    .tools-section {
+      padding: 80px 24px 120px;
+      max-width: 1200px; margin: 0 auto;
+    }
+
+    .tools-header {
+      text-align: center; margin-bottom: 44px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .tools-header.visible { opacity: 1; transform: translateY(0); }
+
+    .tools-title {
+      font-size: clamp(30px, 4.5vw, 52px);
+      font-weight: 800; letter-spacing: -1.5px;
+      color: var(--text); margin-bottom: 28px;
+    }
+    .tools-title span {
+      background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Pill filter buttons */
+    .filter-row {
+      display: flex; flex-wrap: wrap; gap: 9px;
+      justify-content: center;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity .6s ease .1s, transform .6s ease .1s;
+    }
+    .filter-row.visible { opacity: 1; transform: translateY(0); }
+
+    .filter-pill {
+      padding: 9px 22px; border-radius: var(--radius);
+      font-family: inherit; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all .22s;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      color: var(--muted);
+    }
+    .filter-pill:hover {
+      border-color: rgba(59,130,246,0.5);
+      color: #93c5fd;
+      background: rgba(59,130,246,0.1);
+    }
+    .filter-pill.active {
+      background: rgba(59,130,246,0.18);
+      border-color: rgba(59,130,246,0.6);
+      color: #60a5fa;
+      box-shadow: 0 0 14px rgba(59,130,246,0.2);
+    }
+
+    /* ─── TOOL CARDS ─── */
+    .tools-grid {
+      margin-top: 52px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 18px;
+    }
+
+    .tool-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 26px;
+      transition: all .28s;
+      cursor: pointer;
+      opacity: 0; transform: translateY(28px);
+    }
+    .tool-card.visible { opacity: 1; transform: translateY(0); }
+    .tool-card:hover {
+      border-color: rgba(59,130,246,0.35);
+      background: rgba(59,130,246,0.07);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.35);
+    }
+
+    .tool-card-icon {
+      width: 46px; height: 46px; border-radius: 12px; margin-bottom: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      background: rgba(59,130,246,0.12);
+      border: 1px solid rgba(59,130,246,0.22);
+    }
+    .tool-card-title {
+      font-size: 15px; font-weight: 700; margin-bottom: 7px; color: var(--text);
+    }
+    .tool-card-desc {
+      font-size: 13px; line-height: 1.65; color: var(--muted);
+      margin-bottom: 18px;
+    }
+    .tool-card-tag {
+      display: inline-block;
+      padding: 4px 12px; border-radius: var(--radius);
+      font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
+      background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.25);
+      color: #60a5fa;
+    }
+    .tool-card-tag.gold {
+      background: rgba(245,166,35,0.12); border-color: rgba(245,166,35,0.3);
+      color: var(--gold);
+    }
+    .tool-card-tag.green {
+      background: rgba(34,197,94,0.1); border-color: rgba(34,197,94,0.25);
+      color: #4ade80;
+    }
+
+    /* ─── DIVIDER ─── */
+    .section-divider {
+      width: 100%; height: 1px;
+      background: var(--border-subtle);
+    }
+
+    /* ─── BACK LINK ─── */
+    .back-bar {
+      padding: 18px 36px;
+      display: flex; align-items: center;
+    }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      color: var(--muted); font-size: 13px; font-weight: 500;
+      background: none; border: none; font-family: inherit;
+      cursor: pointer; transition: color .2s; text-decoration: none;
+    }
+    .back-btn:hover { color: var(--blue); }
+    .back-btn svg { width: 15px; height: 15px; }
+  </style>
+</head>
+<body>
+
+<!-- TOP LEFT LOGO — no navbar bar, just floating over the hero -->
+<div class="topbar">
+  <a class="topbar-brand" href="../">
+    <div class="topbar-logo">Or1</div>
+    <span class="topbar-name">Or1gin <span>Tools</span></span>
+  </a>
+</div>
+
+<!-- HERO — gradient only, no slideshow -->
+<section class="hero">
+  <div class="hero-gradient"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-orb"></div>
+  <div class="hero-fade"></div>
+
+  <div class="hero-content">
+    <h1 class="hero-title">
+      Built for<br><span>Competitors</span>
+    </h1>
+    <div class="hero-cta">
+      <button class="btn-hero-blue">Explore All Tools</button>
+      <button class="btn-hero-white">Submit a Request</button>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS SECTION -->
+<div class="tools-section">
+  <div class="tools-header" id="toolsHeader">
+    <h2 class="tools-title">Or1gin <span>Tools</span></h2>
+
+    <div class="filter-row" id="filterRow">
+      <button class="filter-pill active" data-filter="all">All Tools</button>
+      <button class="filter-pill" data-filter="stats">Stats</button>
+      <button class="filter-pill" data-filter="coaching">Coaching</button>
+      <button class="filter-pill" data-filter="scrims">Scrims</button>
+      <button class="filter-pill" data-filter="media">Media</button>
+      <button class="filter-pill" data-filter="community">Community</button>
+      <button class="filter-pill" data-filter="utilities">Utilities</button>
+    </div>
+  </div>
+
+  <div class="tools-grid" id="toolsGrid">
+
+    <div class="tool-card" data-category="stats">
+      <div class="tool-card-icon">📊</div>
+      <div class="tool-card-title">Stat Tracker</div>
+      <div class="tool-card-desc">Track your in-game performance across all sessions. Review placement history, eliminations, and consistency metrics over time.</div>
+      <span class="tool-card-tag">Stats</span>
+    </div>
+
+    <div class="tool-card" data-category="coaching">
+      <div class="tool-card-icon">🎯</div>
+      <div class="tool-card-title">VOD Review</div>
+      <div class="tool-card-desc">Upload and annotate match footage with your coach. Timestamp key moments and share breakdowns with teammates in seconds.</div>
+      <span class="tool-card-tag gold">Coaching</span>
+    </div>
+
+    <div class="tool-card" data-category="scrims">
+      <div class="tool-card-icon">🗓️</div>
+      <div class="tool-card-title">Scrim Scheduler</div>
+      <div class="tool-card-desc">Organise and confirm practice sessions with rival teams. Send invites, track availability, and manage lobby codes all in one place.</div>
+      <span class="tool-card-tag">Scrims</span>
+    </div>
+
+    <div class="tool-card" data-category="media">
+      <div class="tool-card-icon">🎬</div>
+      <div class="tool-card-title">Clip Export</div>
+      <div class="tool-card-desc">Render highlight clips with Or1gin branding applied automatically. Export in formats ready for TikTok, YouTube Shorts, and Twitter.</div>
+      <span class="tool-card-tag green">Media</span>
+    </div>
+
+    <div class="tool-card" data-category="stats">
+      <div class="tool-card-icon">📈</div>
+      <div class="tool-card-title">Placement Analytics</div>
+      <div class="tool-card-desc">Visualise your tournament placement trends and compare them against team averages and top competitors on the leaderboard.</div>
+      <span class="tool-card-tag">Stats</span>
+    </div>
+
+    <div class="tool-card" data-category="community">
+      <div class="tool-card-icon">🏆</div>
+      <div class="tool-card-title">Fan Leaderboard</div>
+      <div class="tool-card-desc">Community-wide ranking board. Earn points by attending events, engaging on socials, and winning fan tournaments hosted by Or1gin.</div>
+      <span class="tool-card-tag gold">Community</span>
+    </div>
+
+    <div class="tool-card" data-category="utilities">
+      <div class="tool-card-icon">⚙️</div>
+      <div class="tool-card-title">Settings Sync</div>
+      <div class="tool-card-desc">Back up and restore your in-game settings. Share configs with teammates or switch between multiple pro setups in one click.</div>
+      <span class="tool-card-tag">Utilities</span>
+    </div>
+
+    <div class="tool-card" data-category="coaching">
+      <div class="tool-card-icon">🧠</div>
+      <div class="tool-card-title">Meta Analyser</div>
+      <div class="tool-card-desc">Stay ahead of the patch with live meta breakdowns. See which loadouts, landing spots, and rotations are dominating at your level.</div>
+      <span class="tool-card-tag gold">Coaching</span>
+    </div>
+
+    <div class="tool-card" data-category="community">
+      <div class="tool-card-icon">💬</div>
+      <div class="tool-card-title">Community Hub</div>
+      <div class="tool-card-desc">Connect with other Or1gin supporters, share clips, discuss strategy, and get early access to announcements before they go public.</div>
+      <span class="tool-card-tag green">Community</span>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-divider"></div>
+<div class="back-bar">
+  <a class="back-btn" href="../">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+    Back to Team Or1gin
+  </a>
+</div>
+
+<script>
+  // ─── Scroll reveal ───
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+
+  document.getElementById('toolsHeader').querySelectorAll('*').forEach(() => {});
+  revealObserver.observe(document.getElementById('toolsHeader'));
+  revealObserver.observe(document.getElementById('filterRow'));
+
+  document.querySelectorAll('.tool-card').forEach((card, i) => {
+    card.style.transitionDelay = (i * 0.07) + 's';
+    revealObserver.observe(card);
+  });
+
+  // ─── Pill filter ───
+  const pills = document.querySelectorAll('.filter-pill');
+  const cards = document.querySelectorAll('.tool-card');
+
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      pills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+
+      const filter = pill.dataset.filter;
+      cards.forEach(card => {
+        const match = filter === 'all' || card.dataset.category === filter;
+        card.style.display = match ? '' : 'none';
+      });
+    });
+  });
+</script>
+</body>
+</html>
